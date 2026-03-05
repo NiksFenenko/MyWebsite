@@ -14,7 +14,7 @@ export const users = pgTable("users", {
 export const products = pgTable("products", {
     id: uuid("id").defaultRandom().primaryKey(),
     title: text("title").notNull(),
-    description: text("decsription").notNull(),
+    description: text("description").notNull(),
     imageUrl: text("image_url").notNull(),
     userId: text("user_id")
         .notNull()
@@ -58,5 +58,5 @@ export type NewProduct = typeof products.$inferInsert;
 
 
 export type Comment = typeof comments.$inferSelect;
-export type NewComment = typeof products.$inferInsert;
+export type NewComment = typeof comments.$inferInsert;
 
