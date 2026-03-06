@@ -13,16 +13,34 @@ export const getUserById = async (id: string) => {
     return db.query.users.findFirst({ where: eq(users.id, id) });
 };
 
-export const updateUser = async (id: string, data: Partial<NewUser>) => {
-    const [user] = await db.update(users).set(data).where(eq(users.id, id)).returning();
+
+type UserUpdateData = Pick<NewUser, "email" | "name" | "imageUrl">;
+type ProductUpdateData = Pick<NewProduct, "title" | "description" | "imageUrl">;
+
+
+export const updateUser = async (id: string, data: UserUpdateData) => {
+    const [user] = await db
+        .update(users)
+        .set({ ...data, updated_at: new Date() })
+        .where(eq(users.id, id))
+        .returning();
     return user;
 };
 
 export const upsertUser = async (data: NewUser) => {
-    const existingUser = await getUserById(data.id);
-    if (existingUser) return updateUser(data.id, data);
-
-    return createUser(data);
+    const [user] = await db
+        .insert(users)
+        .values(data)
+        .onConflictDoUpdate({
+            target: users.id, set: {
+                email: data.email,
+                name: data.name,
+                imageUrl: data.imageUrl,
+                updated_at: new Date(),
+            },
+        })
+        .returning();
+    return user;
 };
 
 // Product queries
@@ -61,8 +79,13 @@ export const getProductsByUserId = async (userId: string) => {
     });
 };
 
-export const updateProduct = async (id: string, data: Partial<NewProduct>) => {
-    const [product] = await db.update(products).set(data).where(eq(products.id, id)).returning();
+
+export const updateProduct = async (id: string, data: ProductUpdateData) => {
+    const [product] = await db
+        .update(products)
+        .set({ ...data, updated_at: new Date() })
+        .where(eq(products.id, id))
+        .returning();
     return product;
 };
 
