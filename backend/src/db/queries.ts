@@ -4,6 +4,7 @@ import { users, comments, products, type NewUser, type NewComment, type NewProdu
 
 // User queries
 
+
 export const createUser = async (data: NewUser) => {
     const [user] = await db.insert(users).values(data).returning();
     return user;
@@ -111,4 +112,12 @@ export const getCommentsById = async (id: string) => {
         where: eq(comments.id, id),
         with: { user: true, }
     });
+};
+
+export const productExists = async (id: string) => {
+    const result = await db.query.products.findFirst({
+        where: eq(products.id, id),
+        columns: { id: true },
+    });
+    return !!result;
 };

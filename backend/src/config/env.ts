@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
 import path from "path"
 
-dotenv.config({ path: path.resolve(__dirname, ".env") }) // __dirname instead of process.cwd()
+dotenv.config({ path: path.resolve(process.cwd(), ".env") })
 
 export const ENV = {
     PORT: process.env.PORT || "3000",

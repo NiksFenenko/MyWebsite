@@ -1,3 +1,8 @@
-
- .env
- backend/.env 
+node_modules/
+dist/
+.env
+.env.*
+backend/.env
+frontend/.envgit ls-files | grep .env
+backend/.env
+frontend/.env
