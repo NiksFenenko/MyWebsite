@@ -4,6 +4,7 @@ import { users, comments, products, type NewUser, type NewComment, type NewProdu
 
 // User queries
 
+
 export const createUser = async (data: NewUser) => {
     const [user] = await db.insert(users).values(data).returning();
     return user;
