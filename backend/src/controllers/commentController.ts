@@ -16,10 +16,8 @@ export const createComment = async (req: Request, res: Response) => {
   
 
   //verify product exists
-    const product = await querie.getProductById(productId);
-    if (!product) {
-      return res.status(404).json({ error: "Product not found" });
-    }
+  const exists = await querie.productExists(productId);
+if (!exists) return res.status(404).json({ error: "Product not found" });
    
       const comment = await querie.createComment({
       content, 

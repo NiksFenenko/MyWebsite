@@ -113,3 +113,11 @@ export const getCommentsById = async (id: string) => {
         with: { user: true, }
     });
 };
+
+export const productExists = async (id: string) => {
+    const result = await db.query.products.findFirst({
+        where: eq(products.id, id),
+        columns: { id: true },
+    });
+    return !!result;
+};
