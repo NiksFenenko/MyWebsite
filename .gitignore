@@ -3,6 +3,4 @@ dist/
 .env
 .env.*
 backend/.env
-frontend/.envgit ls-files | grep .env
-backend/.env
 frontend/.env
