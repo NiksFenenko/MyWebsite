@@ -6,6 +6,8 @@ import ProductPage from "./pages/ProductPage";
 import EditProductPage from "./pages/EditProductPage";
 import CreatePage from "./pages/CreatePage";
 import ProfilePage from "./pages/ProfilePage";
+import useAuthReq from "./hooks/useAuthReq";
+import useUserSync from "./hooks/useUserSync";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isLoaded, isSignedIn } = useAuth();
@@ -15,7 +17,9 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-function App() {
+function AppContent() {
+  useUserSync();
+
   return (
     <div className="min-h-screen bg-base-100">
       <Navbar />
@@ -30,6 +34,14 @@ function App() {
       </main>
     </div>
   );
+}
+
+function App() {
+  const { isClerkLoaded } = useAuthReq();
+
+  if (!isClerkLoaded) return null;
+
+  return <AppContent />;
 }
 
 export default App;
