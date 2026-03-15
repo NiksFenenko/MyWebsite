@@ -1,10 +1,19 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes, Navigate } from "react-router";
+import { useAuth } from "@clerk/clerk-react";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import ProductPage from "./pages/ProductPage";
 import EditProductPage from "./pages/EditProductPage";
 import CreatePage from "./pages/CreatePage";
 import ProfilePage from "./pages/ProfilePage";
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded) return null;
+  if (!isSignedIn) return <Navigate to="/" replace />;
+  return <>{children}</>;
+}
 
 function App() {
   return (
@@ -14,13 +23,13 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/create" element={<CreatePage />} />
-          <Route path="/edit/:id" element={<EditProductPage />} />
+          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/create" element={<ProtectedRoute><CreatePage /></ProtectedRoute>} />
+          <Route path="/edit/:id" element={<ProtectedRoute><EditProductPage /></ProtectedRoute>} />
         </Routes>
       </main>
     </div>
-  )
-} 
+  );
+}
 
-export default App
+export default App;

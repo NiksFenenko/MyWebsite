@@ -3,8 +3,9 @@ import { SignInButton, SignUpButton, UserButton, useAuth} from "@clerk/clerk-rea
 import { ShoppingBagIcon, PlusIcon, UserIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 
+
 function Navbar() {
-  const { isSignedIn } = useAuth();
+  const { isLoaded, isSignedIn } = useAuth();
 
   return (
     <div className="navbar bg-base-300">
@@ -17,7 +18,7 @@ function Navbar() {
       </div>
        <div className="flex gap-2 items-center">
           <ThemeSelector />
-          {isSignedIn ? (
+          {!isLoaded ? null : isSignedIn ? (
             <>
               <Link to="/create" className="btn btn-primary btn-sm gap-1">
                 <PlusIcon className="size-4" />
