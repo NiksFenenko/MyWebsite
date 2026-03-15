@@ -10,6 +10,9 @@ import commentRoutes from "./routes/commentRoutes";
 
 const app = express();
 
+if (!ENV.FRONTEND_URL) {
+  console.warn("FRONTEND_URL not set. CORS may not work correctly.");
+}
 app.use(cors({ origin: ENV.FRONTEND_URL, credentials: true }));
 app.use(clerkMiddleware());
 app.use(express.json());

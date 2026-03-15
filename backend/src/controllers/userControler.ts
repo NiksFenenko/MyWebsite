@@ -7,10 +7,10 @@ export async function syncUser(req: Request, res: Response) {
     const { userId } = getAuth(req);
     if (!userId) return res.status(401).json({ error: "Unauthorized" });
 
-    const { email, name, imageUrl } = req.body;
+    const { email, name, imageUrl = "" } = req.body;
 
-    if (!email || !name || !imageUrl) {
-      return res.status(400).json({ error: "Email, name, and imageUrl are required" });
+    if (!email || !name) {
+      return res.status(400).json({ error: "Email and name are required" });
     }
 
     const user = await queries.upsertUser({
