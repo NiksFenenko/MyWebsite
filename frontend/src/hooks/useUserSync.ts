@@ -1,0 +1,30 @@
+import { useAuth, useUser } from "@clerk/react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
+import { syncUser } from "../lib/api";
+
+function useUserSync() {
+    const { isSignedIn } = useAuth();
+    const { user } = useUser();
+    const hasSynced = useRef(false);
+
+    const { mutate: syncUserMutation, isSuccess } = useMutation({ mutationFn: syncUser });
+
+    useEffect(() => {
+        if (isSignedIn && user && !hasSynced.current) {
+            const email = user.primaryEmailAddress?.emailAddress;
+            const name = user.fullName || user.firstName;
+            const imageUrl = user.imageUrl;
+
+            if (!email || !name) return;
+
+            syncUserMutation({ email, name, imageUrl }, {
+                onSuccess: () => { hasSynced.current = true; },
+            });
+        }
+    }, [isSignedIn, user]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    return { isSynced: isSuccess };
+};
+
+export default useUserSync;
