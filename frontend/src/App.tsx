@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from "react-router";
-import { useAuth } from "@clerk/react";
+import { useAuth } from "@clerk/clerk-react";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import ProductPage from "./pages/ProductPage";
