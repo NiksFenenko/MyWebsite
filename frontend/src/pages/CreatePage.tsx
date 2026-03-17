@@ -62,6 +62,7 @@ function CreatePage() {
                   src={formData.imageUrl}
                   alt="Preview"
                   className="w-full h-40 object-cover"
+                  onLoad={(e: React.SyntheticEvent<HTMLImageElement>) => ((e.target as HTMLImageElement).style.display = "block")}
                   onError={(e: React.SyntheticEvent<HTMLImageElement>) => ((e.target as HTMLImageElement).style.display = "none")}
                 />
               </div>
