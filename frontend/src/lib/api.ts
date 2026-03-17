@@ -1,5 +1,18 @@
 import api from "./axios";
 
+export type Product = {
+  _id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  createdAt: string;
+  user?: {
+    name: string;
+    imageUrl: string;
+  };
+  comments?: { _id: string }[];
+};
+
 // USERS API
 export const syncUser = async (userData: Record<string, unknown>) => {
   const { data } = await api.post("/users/sync", userData);
@@ -7,8 +20,8 @@ export const syncUser = async (userData: Record<string, unknown>) => {
 };
 
 // Products API
-export const getAllProducts = async () => {
-  const { data } = await api.get("/products");
+export const getAllProducts = async (): Promise<Product[]> => {
+  const { data } = await api.get<Product[]>("/products");
   return data;
 };
 

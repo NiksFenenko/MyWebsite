@@ -1,10 +1,10 @@
-import { useAuth } from "@clerk/react";
+import { useAuth } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import api from "../lib/axios";
 
 function useAuthReq() {
   const { isSignedIn, getToken, isLoaded } = useAuth();
-  // include the token to the request headers
+
   useEffect(() => {
     const interceptor = api.interceptors.request.use(async (config) => {
       if (isSignedIn) {
