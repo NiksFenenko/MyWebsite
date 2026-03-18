@@ -1,16 +1,17 @@
 import api from "./axios";
 
 export type Product = {
-  _id: string;
+  id: string;  // changed from _id
   title: string;
   description: string;
   imageUrl: string;
+  userId: string;  // add this too, needed for isOwner check in ProductPage
   createdAt: string;
   user?: {
     name: string;
     imageUrl: string;
   };
-  comments?: { _id: string }[];
+  comments?: { id: string; userId: string; content: string; createdAt: string; user?: { name: string; imageUrl: string } }[];
 };
 
 // USERS API
