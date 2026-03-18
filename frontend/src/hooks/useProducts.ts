@@ -29,13 +29,14 @@ export const useProduct = (id: string) => {
 export const useDeleteProduct = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+    return useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myProducts"] });
     },
   });
 };
+
 
 export const useMyProducts = () => {
   return useQuery<Product[]>({
