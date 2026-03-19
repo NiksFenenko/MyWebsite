@@ -13,7 +13,10 @@ const app = express();
 if (!ENV.FRONTEND_URL) {
   console.warn("FRONTEND_URL not set. CORS may not work correctly.");
 }
-app.use(cors({ origin: ENV.FRONTEND_URL, credentials: true }));
+app.use(cors({
+  origin: 'https://my-website-beta-seven-88.vercel.app', // Твой адрес фронтенда
+  credentials: true
+}));
 app.use(clerkMiddleware());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
