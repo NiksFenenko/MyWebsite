@@ -3,7 +3,7 @@ import { PackageIcon, SparklesIcon } from "lucide-react";
 import { Link } from "react-router";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ProductCard from "../components/ProductCard";
-import { SignInButton, useUser } from "@clerk/clerk-react";
+import { SignInButton, useUser } from "@clerk/react";
 
 function HomePage() {
   const { data: products = [], isLoading, error } = useProducts();
