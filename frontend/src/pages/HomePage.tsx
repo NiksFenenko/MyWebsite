@@ -3,7 +3,7 @@ import { PackageIcon, SparklesIcon } from "lucide-react";
 import { Link } from "react-router";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ProductCard from "../components/ProductCard";
-import { SignInButton, useUser } from "@clerk/clerk-react";
+import { SignInButton, useUser } from "@clerk/react";
 
 function HomePage() {
   const { data: products = [], isLoading, error } = useProducts();
@@ -76,7 +76,7 @@ function HomePage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {products.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}

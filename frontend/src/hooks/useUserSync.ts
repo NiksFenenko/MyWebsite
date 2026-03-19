@@ -1,4 +1,4 @@
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/react";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { syncUser } from "../lib/api";
