@@ -1,41 +1,29 @@
 import express from "express";
-import cors from 'cors';
-import { ENV } from "./config/env";
-import { clerkMiddleware } from '@clerk/express'
-
-import userRoutes from "./routes/userRoutes";
+import cors from "cors";
+// Импортируй роуты аккуратно
 import productRoutes from "./routes/productRoutes";
-import commentRoutes from "./routes/commentRoutes";
 
 const app = express();
+const PORT = Number(process.env.PORT) || 3000;
 
-// 1. Настройки (Middlewares) — ДОЛЖНЫ БЫТЬ ПЕРВЫМИ
-app.use(cors({
-  origin: 'https://my-website-beta-seven-88.vercel.app',
-  credentials: true
-}));
-app.use(clerkMiddleware());
+// 1. Сначала базовые настройки
+app.use(cors({ origin: '*' })); // Временно разрешаем всё для теста
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// 2. Роуты
-app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to Productify API",
-    endpoints: {
-      users: "/api/users",
-      products: "/api/products",
-      comments: "/api/comments",
-    },
-  });
+// 2. Тестовый роут для проверки "живучести"
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", port: PORT, env: process.env.NODE_ENV });
 });
 
-app.use("/api/users", userRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/comments", commentRoutes);
+// 3. Оборачиваем роуты, которые используют БД, в try-catch
+try {
+  app.use("/api/products", productRoutes);
+  // Добавь остальные роуты сюда
+} catch (error) {
+  console.error("Ошибка при инициализации роутов:", error);
+}
 
-// 3. Запуск сервера — ТОЛЬКО ОДИН РАЗ И В САМОМ КОНЦЕ
-const PORT = Number(process.env.PORT) || 3000;
+// 4. Запуск сервера в самом конце
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Сервер запущен на порту ${PORT}`);
+  console.log(`✅ SERVER IS UP: http://0.0.0.0:${PORT}`);
 });
